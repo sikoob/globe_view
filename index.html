@@ -1,6 +1,36 @@
 
 <head>
-    <style> body { margin: 0; } </style>
+    <style> 
+        body { margin: 0; 
+        } 
+
+        #globeViz{
+            z-index: 2;
+        }
+
+        .class_km{
+            z-index: 1000;
+        }    
+
+        p {
+            font-family: Arial, Helvetica, sans-serif;
+            display: block;
+            position: absolute;
+            top: 0.5rem;
+            left: 2rem;
+            color: white;
+            font-size: 2rem;
+        }
+
+        u {
+            font-size: 3rem;
+        }
+
+        b{
+            color:#37C391;
+            font-size: 3.5rem;
+        }
+    </style>
   
     <script src="//unpkg.com/globe.gl"></script>
     <!--<script src="../../dist/globe.gl.js"></script>-->
@@ -8,33 +38,36 @@
   
   <body>
     <div id="globeViz"></div>
+    <div class="km_situation">
+        <p><u>Aktueller Stand:</u><br><b class="km_stand">500</b> / 40.075 km <br>geschafft</p>
+    </div>
   
     <script>
         //point information
         let locations = [
-            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Stuttgart</h1>', descr: 'Hauptsitz der LBBW', lat: 48.78654, lng: 9.18164, color: '#37C391', altitude: 0.25, radius: 0.3},
-            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Mannheim</h1>', descr: '', lat: 49.48152, lng: 8.48350, color: '#37C391', altitude: 0.25, radius: 0.3},
-            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Mainz</h1>', descr: '', lat: 50.01624, lng: 8.25410, color: '#37C391', altitude: 0.25, radius: 0.3},
-            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Karlsruhe</h1>', descr: '', lat: 49.00522, lng: 8.41421, color:'#37C391', altitude: 0.25, radius: 0.3},
-            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">New York</h1>', descr: '', lat: 40.75815, lng: -73.98238, color:'#37C391', altitude: 0.25, radius: 0.5},
-            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Mexiko</h1>', descr: '', lat: 19.36679, lng: -99.26066, color:'#37C391', altitude: 0.25, radius: 0.5},
-            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">São Paulo</h1>', descr: '', lat: -23.58018, lng: -46.67793, color:'#37C391', altitude: 0.25, radius: 0.5},
-            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Toronto</h1>', descr: '', lat: 46.65027, lng: -79.37880, color:'#37C391', altitude: 0.25, radius: 0.5},
-            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Singapur</h1>', descr: '', lat: 1.27710, lng: 103.84800, color:'#37C391', altitude: 0.25, radius: 0.5},
-            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Seoul</h1>', descr: '', lat: 37.56853, lng: 126.97824, color:'#37C391', altitude: 0.25, radius: 0.5},
-            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Hanoi</h1>', descr: '', lat: 21.02131, lng: 105.85564, color:'#37C391', altitude: 0.25, radius: 0.5},
-            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Jakarta</h1>', descr: '', lat: -6.19541, lng: 106.82189, color:'#37C391', altitude: 0.25, radius: 0.5},
-            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Mumbai</h1>', descr: '', lat: 18.92582, lng: 72.82412, color:'#37C391', altitude: 0.25, radius: 0.5},
-            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Peking</h1>', descr: '', lat: 39.95379, lng: 116.46452, color:'#37C391', altitude: 0.25, radius: 0.5},
-            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Shanghai</h1>', descr: '', lat: 31.13394, lng: 121.77796, color:'#37C391', altitude: 0.25, radius: 0.5},
-            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">London</h1>', descr: '', lat: 51.52081, lng: -0.07922, color:'#37C391', altitude: 0.25, radius: 0.5},
-            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Dubai</h1>', descr: '', lat: 25.21257, lng: 55.28136, color:'#37C391', altitude: 0.25, radius: 0.5},
-            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Istanbul</h1>', descr: '', lat: 41.08184, lng: 29.02198, color:'#37C391', altitude: 0.25, radius: 0.5},
-            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Moskau</h1>', descr: '', lat: 55.75005, lng: 37.53780, color:'#37C391', altitude: 0.25, radius: 0.5},
-            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Taschkent</h1>', descr: '', lat: 41.33758, lng: 69.28226, color:'#37C391', altitude: 0.25, radius: 0.5},
-            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Wien</h1>', descr: '', lat: 48.20763, lng: 16.37081, color:'#37C391', altitude: 0.25, radius: 0.5},
-            {name: '<h3 style="font-family:Arial;font-size: 1.5rem;color: #37C391">Start</h3>', descr: '', lat: 48.78654, lng: 9.18164, color:'#123250', altitude: 0.01, radius: 1},
-            {name: '<h3 style="font-family:Arial;font-size: 1.5rem;color: #37C391">Derzeitiger Stand</h3>', descr: '', lat: 48.78654, lng: 14.18164, color:'#123250', altitude: 0.01, radius: 1}
+            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Stuttgart</h1>', descr: 'Hauptsitz der LBBW', lat: 48.78654, lng: 9.18164, color: '#37C391', altitude: 0.015, radius: 0.6},
+            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Mannheim</h1>', descr: '', lat: 49.48152, lng: 8.48350, color: '#37C391', altitude: 0.015, radius: 0.4},
+            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Mainz</h1>', descr: '', lat: 50.01624, lng: 8.25410, color: '#37C391', altitude: 0.015, radius: 0.4},
+            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Karlsruhe</h1>', descr: '', lat: 49.00522, lng: 8.41421, color:'#37C391', altitude: 0.015, radius: 0.4},
+            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">New York</h1>', descr: '', lat: 40.75815, lng: -73.98238, color:'#37C391', altitude: 0.015, radius: 0.8},
+            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Mexiko</h1>', descr: '', lat: 19.36679, lng: -99.26066, color:'#37C391', altitude: 0.015, radius: 0.8},
+            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">São Paulo</h1>', descr: '', lat: -23.58018, lng: -46.67793, color:'#37C391', altitude: 0.015, radius: 0.8},
+            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Toronto</h1>', descr: '', lat: 46.65027, lng: -79.37880, color:'#37C391', altitude: 0.015, radius: 0.8},
+            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Singapur</h1>', descr: '', lat: 1.27710, lng: 103.84800, color:'#37C391', altitude: 0.015, radius: 0.8},
+            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Seoul</h1>', descr: '', lat: 37.56853, lng: 126.97824, color:'#37C391', altitude: 0.015, radius: 0.8},
+            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Hanoi</h1>', descr: '', lat: 21.02131, lng: 105.85564, color:'#37C391', altitude: 0.015, radius: 0.8},
+            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Jakarta</h1>', descr: '', lat: -6.19541, lng: 106.82189, color:'#37C391', altitude: 0.015, radius: 0.8},
+            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Mumbai</h1>', descr: '', lat: 18.92582, lng: 72.82412, color:'#37C391', altitude: 0.015, radius: 0.8},
+            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Peking</h1>', descr: '', lat: 39.95379, lng: 116.46452, color:'#37C391', altitude: 0.015, radius: 0.8},
+            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Shanghai</h1>', descr: '', lat: 31.13394, lng: 121.77796, color:'#37C391', altitude: 0.015, radius: 0.8},
+            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">London</h1>', descr: '', lat: 51.52081, lng: -0.07922, color:'#37C391', altitude: 0.015, radius: 0.8},
+            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Dubai</h1>', descr: '', lat: 25.21257, lng: 55.28136, color:'#37C391', altitude: 0.015, radius: 0.8},
+            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Istanbul</h1>', descr: '', lat: 41.08184, lng: 29.02198, color:'#37C391', altitude: 0.015, radius: 0.8},
+            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Moskau</h1>', descr: '', lat: 55.75005, lng: 37.53780, color:'#37C391', altitude: 0.015, radius: 0.8},
+            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Taschkent</h1>', descr: '', lat: 41.33758, lng: 69.28226, color:'#37C391', altitude: 0.015, radius: 0.8},
+            {name: '<h1 style="font-family:Arial;font-size: 2rem;color: #9CE1C9">Wien</h1>', descr: '', lat: 48.20763, lng: 16.37081, color:'#37C391', altitude: 0.015, radius: 0.8},
+            {name: '<h3 style="font-family:Arial;font-size: 1.5rem;color: #37C391">Start</h3>', descr: '', lat: 48.78654, lng: 9.18164, color:'#123250', altitude: 0, radius: 1},
+            {name: '<h3 style="font-family:Arial;font-size: 1.5rem;color: #37C391;">Derzeitiger Stand</h3>', descr: '', lat: 48.78654, lng: 14.18164, color:'#123250', altitude: 0, radius: 1}
         ];
 
         // Arc Data for Path
@@ -49,7 +82,7 @@
                         'features': [{'name': 'end', 'lat': 48.78654, 'lng': 14.18164}]}
 
 
-        const world = Globe()
+        const world =  Globe()
             .globeImageUrl('//unpkg.com/three-globe/example/img/earth-blue-marble.jpg')          
             .backgroundImageUrl('//unpkg.com/three-globe/example/img/night-sky.png')
             .arcsData(arcsData)
